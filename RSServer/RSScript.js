@@ -25,6 +25,7 @@ var feedparser = new FeedParser({});
 //rssの各データを収納する変数
 var items = [];
 
+//引数からのデータ（仮）
 var Data = "netaatoz" ;
 
 

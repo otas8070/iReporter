@@ -15,19 +15,31 @@ var jquery = require("jquery")
 var jsdom = require("node-jsdom");
 var FeedParser = require('feedparser');
 var request = require('request');
+var site = require('./Site');
 var feed = 'http://netaatoz.jp/index.rdf';
 
+
 var feedparser = new FeedParser({});
+
 
 //rssの各データを収納する変数
 var items = [];
 
-
+var Data = "netaatoz" ;
 
 
 //***** Roop *****
+
+//RSSから情報を取得してくる
 DataRead(feed);
-DataAnalyze();
+
+//サイト自体を解析
+DataAnalyze(); //デバッグ用
+
+//サイト自体を解析
+//文字列から関数を実行 元の関数=site.netaatoz(feedparser);
+//eval("site."+Data+"(feedparser)");
+
 
 
 
@@ -57,6 +69,7 @@ function DataRead(feed){
 
 }
 
+
 function DataAnalyze(){
 
     feedparser.on('end', function() {
@@ -78,7 +91,6 @@ function DataAnalyze(){
                     array['article'][i] = new Array();
                     array['article'][i]['author'] = author[0];
                     array['article'][i]['text'] = author[1];
-
                     i++;
                 });
 

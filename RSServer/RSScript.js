@@ -35,11 +35,11 @@ var Data = "netaatoz" ;
 DataRead(feed);
 
 //サイト自体を解析
-DataAnalyze(); //デバッグ用
+//DataAnalyze(); //デバッグ用
 
 //サイト自体を解析
 //文字列から関数を実行 元の関数=site.netaatoz(feedparser);
-//eval("site."+Data+"(feedparser)");
+eval("site."+Data+"(feedparser)");
 
 
 

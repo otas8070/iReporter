@@ -1,38 +1,1 @@
-/**
- * Created by ht on 2016/05/25.
- */
-var jsdom = require("node-jsdom");
-
-
-// http://netaatoz.jp/
-module.exports.netaatoz = function(feedparser){
-
-    feedparser.on('end', function() {
-
-        url = 'http://netaatoz.jp/archives/9259216.html';
-        jsdom.env(
-            url,
-            ["http://code.jquery.com/jquery.js"],
-            function (errors, window) {
-                var array = new Array();
-                var insert = new Array();
-                array['article'] = new Array();
-
-                array['description'] = window.$("#resid1 div")[1].innerHTML;
-
-                var i = 0;
-                window.$(".article_body_more").children('div').each(function() {
-                    var author = window.$(this).text().split("\n\n");
-                    array['article'][i] = new Array();
-                    array['article'][i]['author'] = author[0];
-                    array['article'][i]['text'] = author[1];
-                    i++;
-                });
-
-
-                console.log(array);
-            }
-        );
-
-    });
-};
+/** * Created by ht on 2016/05/25. */var jsdom = require("node-jsdom");var array = new Array();array['article'] = new Array();var text = new Array();var url;// http://netaatoz.jp/module.exports.netaatoz = function(feedparser){    feedparser.on('end', function() {        url = 'http://netaatoz.jp/archives/9259216.html';        jsdom.env(            url,            ["http://code.jquery.com/jquery.js"],            function (errors, window) {                //コメント主コメント抽出                array['description'] = window.$("#resid1 div")[1].innerHTML;                //コメント部分抽出                var i = 0;                window.$(".article_body_more").children('div').each(function(NULL) {                    //authorとtextを大きく分ける                    var author = window.$(this).text().split("\n\n");                    //textの部分をmentionとコメント部分に分ける                    if(author[1].match(/>>[0-9]+\s/)){                        text[0] = author[1].replace(/>>[0-9]+\s/,"").replace("\n","");                        text[1] = author[1].match(/>>[0-9]+\s/)[0].replace(" ","");                    }else{                        text[0] = author[1];                        text[0] = text[0].replace("\n","");                        text[1] = "none";                    }                    //json作成                    array['article'][i] = new Array();                    array['article'][i]['author'] = author[0];                    array['article'][i]['mention'] = text[1];                    array['article'][i]['text'] = text[0];                    i++;                });                console.log(array);            }        );    });};
